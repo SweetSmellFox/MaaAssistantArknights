@@ -157,7 +157,8 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
     if (m_screen_size.second > 0) {
         const bool with_window_pos =
             (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0;
-        // 仅 WithCursorPos 两种方式挪的是真实光标；Seize 本就强制接管鼠标，纯消息模式不动真实光标
+        const bool anchored_touch = (m_mouse_method & Win32Input::AnchoredTouch) != 0;
+        // Only WithCursorPos methods temporarily move the real cursor during capture.
         const bool moves_real_cursor =
             (m_main_screen_recognition || !with_window_pos) &&
             (m_mouse_method & (Win32Input::SendMessageWithCursorPos | Win32Input::PostMessageWithCursorPos)) != 0;
@@ -168,7 +169,7 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
             cursor_pos_saved = GetCursorPos(&original_cursor_pos);
             Log.trace("Screencap saves cursor position:", original_cursor_pos.x, ",", original_cursor_pos.y);
         }
-        if (m_main_screen_recognition) {
+        if (!anchored_touch && m_main_screen_recognition) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
             unit_touch_move(0, m_screen_size.first / 2, m_screen_size.second / 2, 0);
             if (with_window_pos) {
@@ -176,7 +177,7 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
-        else if (with_window_pos) {
+        else if (!anchored_touch && with_window_pos) {
             const bool capture_from_screen =
                 (m_screencap_method & (Win32Screencap::ScreenDC | Win32Screencap::DXGI_DesktopDup |
                                        Win32Screencap::DXGI_DesktopDup_Window)) != 0;
@@ -190,7 +191,7 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
             }
             unit_touch_up(0);
         }
-        else {
+        else if (!anchored_touch) {
             unit_touch_move(0, 0, m_screen_size.second - 1, 0);
             // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
             std::this_thread::sleep_for(std::chrono::milliseconds(34));

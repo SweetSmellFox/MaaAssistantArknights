@@ -1856,6 +1856,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos（遅延過大、無効）</system:String>
     <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos（推奨、フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
+    <system:String x:Key="AttachWindowInputAnchoredTouch">AnchoredTouch（実験的、半バックグラウンドタッチ、マウスがちらつく、最小化推奨）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（安定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高効率）</system:String>
     <!--  !AsstProxy  -->

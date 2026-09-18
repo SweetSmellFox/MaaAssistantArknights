@@ -32,6 +32,7 @@ typedef enum AsstWin32InputMethodEnum
     AsstWin32InputMethod_PostMessageWithCursorPos = 1 << 6,
     AsstWin32InputMethod_SendMessageWithWindowPos = 1 << 7,
     AsstWin32InputMethod_PostMessageWithWindowPos = 1 << 8,
+    AsstWin32InputMethod_AnchoredTouch = 1 << 10,
 } AsstWin32InputMethodEnum;
 #endif
 

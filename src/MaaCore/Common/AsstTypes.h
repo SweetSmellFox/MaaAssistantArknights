@@ -137,6 +137,7 @@ constexpr Win32InputMethod SendMessageWithCursorPos = 1ULL << 5;
 constexpr Win32InputMethod PostMessageWithCursorPos = 1ULL << 6;
 constexpr Win32InputMethod SendMessageWithWindowPos = 1ULL << 7;
 constexpr Win32InputMethod PostMessageWithWindowPos = 1ULL << 8;
+constexpr Win32InputMethod AnchoredTouch = 1ULL << 10;
 } // namespace Win32Input
 
 #endif // _WIN32

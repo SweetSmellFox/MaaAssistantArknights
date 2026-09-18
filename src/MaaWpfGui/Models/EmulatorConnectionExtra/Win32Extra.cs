@@ -38,8 +38,8 @@ public class Win32Extra : ExtraConfig
     public AsstWin32ScreencapMethod ScreencapMethod
     {
         get; set {
-            // 鼠标输入方式为 *WithWindowPos 时，截图方式仅支持 PrintWindow
-            if (MouseMethod is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos)
+            // 鼠标输入方式为 *WithWindowPos 或 AnchoredTouch 时，截图方式仅支持 PrintWindow
+            if (MouseMethod is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos or AsstWin32InputMethod.AnchoredTouch)
             {
                 value = AsstWin32ScreencapMethod.PrintWindow;
             }
@@ -69,7 +69,8 @@ public class Win32Extra : ExtraConfig
             (AsstWin32InputMethod.SendMessageWithCursorPos, "AttachWindowInputSendWithCursorDisabled", false),
             (AsstWin32InputMethod.PostMessageWithCursorPos, "AttachWindowInputPostWithCursor", true),
             (AsstWin32InputMethod.SendMessageWithWindowPos, "AttachWindowInputSendWithWindowPosDisabled", false),
-            (AsstWin32InputMethod.PostMessageWithWindowPos, "AttachWindowInputPostWithWindowPos", true));
+            (AsstWin32InputMethod.PostMessageWithWindowPos, "AttachWindowInputPostWithWindowPos", true),
+            (AsstWin32InputMethod.AnchoredTouch, "AttachWindowInputAnchoredTouch", true));
 
     public LocalizedObservableList<AsstWin32InputMethod> MouseMethodList => _mouseMethodList;
 
@@ -95,8 +96,8 @@ public class Win32Extra : ExtraConfig
             Instances.AsstProxy.Connected = false;
             SetAndNotify(ref field, value);
 
-            // 鼠标输入方式为 *WithWindowPos 时，截图方式仅支持 PrintWindow
-            if (value is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos)
+            // 鼠标输入方式为 *WithWindowPos 或 AnchoredTouch 时，截图方式仅支持 PrintWindow
+            if (value is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos or AsstWin32InputMethod.AnchoredTouch)
             {
                 ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;
             }
@@ -113,7 +114,7 @@ public class Win32Extra : ExtraConfig
     {
         foreach (var item in _screencapMethodList.Items)
         {
-            item.IsEnabled = MouseMethod is not (AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos) || item.Value == AsstWin32ScreencapMethod.PrintWindow;
+            item.IsEnabled = MouseMethod is not (AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos or AsstWin32InputMethod.AnchoredTouch) || item.Value == AsstWin32ScreencapMethod.PrintWindow;
         }
     }
 

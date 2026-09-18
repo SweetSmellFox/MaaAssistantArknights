@@ -42,7 +42,7 @@ public class Win32Extra : BaseExtra, IJsonOnDeserialized
             _ => MouseMethod,
         };
 
-        if (MouseMethod is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos)
+        if (MouseMethod is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos or AsstWin32InputMethod.AnchoredTouch)
         {
             ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;
         }

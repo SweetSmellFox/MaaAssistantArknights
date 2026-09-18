@@ -24,5 +24,6 @@ public enum AsstWin32InputMethod
     PostMessageWithCursorPos = 64,
     SendMessageWithWindowPos = 128,
     PostMessageWithWindowPos = 256,
+    AnchoredTouch = 1024,
 }
 #pragma warning restore SA1602 // Enumeration items should be documented
